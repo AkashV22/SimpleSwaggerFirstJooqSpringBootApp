@@ -23,7 +23,17 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.all.endpoint.ApiEndpoint;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBus;
@@ -37,6 +47,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 @Configuration
 public class CxfConfiguration {
@@ -46,17 +57,14 @@ public class CxfConfiguration {
 
         serverFactory.setBus(bus);
         serverFactory.setServiceBeans(List.copyOf(endpoints));
-        serverFactory.setFeatures(List.of(
-                openApiFeature
-                , new LoggingFeature()
-        ));
+        serverFactory.setFeatures(List.of(openApiFeature));
 
         return serverFactory.create();
     }
 
     @Bean
     public ServletRegistrationBean<CXFServlet> cxfServlet() {
-        var servletRegistrationBean = new ServletRegistrationBean<>(new CXFServlet(), "/*");
+        var servletRegistrationBean = new ServletRegistrationBean<>(new CXFServlet(), "/api/*");
 
         servletRegistrationBean.setName("CXF");
         servletRegistrationBean.setLoadOnStartup(1);
@@ -69,6 +77,7 @@ public class CxfConfiguration {
     public Bus bus() {
         SpringBus bus = new SpringBus();
         bus.setId("cxf");
+        bus.setFeatures(List.of(new LoggingFeature()));
         BusFactory.setDefaultBus(bus);
         return bus;
     }
@@ -83,7 +92,20 @@ public class CxfConfiguration {
 
         feature.setScanKnownConfigLocations(true);
         feature.setSupportSwaggerUi(true);
+        feature.setScan(true);
 
         return feature;
+    }
+
+    @Path("/openapi.yaml")
+    @Component
+    public static class OpenApiEndpoint implements ApiEndpoint {
+        @GET
+        @Produces("text/yaml")
+        public Response getYaml() throws URISyntaxException, IOException {
+            return Response
+                    .ok(Files.readString(Paths.get(CxfConfiguration.class.getResource("/openapi.yaml").toURI())))
+                    .build();
+        }
     }
 }
