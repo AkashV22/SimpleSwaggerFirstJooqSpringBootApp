@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.akashv22.app</groupId>
+	<artifactId>simple-swagger-first-jooq-spring-boot-app</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>Simple Swagger-First jOOQ Spring Boot App</name>
+	<description>A simple Spring Boot app using Swagger Codegen to generate REST interfaces from an OpenAPI v3 spec, and jOOQ for data persistence.</description>
+
+	<properties>
+		<java.version>12</java.version>
+		<cxf.version>3.3.1</cxf.version>
+		<swagger.version>2.0.8</swagger.version>
+
+		<jooq-liquibase-jdbc.url.driver>org.h2.Driver</jooq-liquibase-jdbc.url.driver>
+		<jooq-liquibase-jdbc.path>${project.build.directory}/jooq-liquibase/db</jooq-liquibase-jdbc.path>
+		<jooq-liquibase-jdbc.url>jdbc:h2:${jooq-liquibase-jdbc.path};MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=false</jooq-liquibase-jdbc.url>
+		<jooq-liquibase-jdbc.username>sa</jooq-liquibase-jdbc.username>
+		<jooq-liquibase-jdbc.password/>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-service-description</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-rs-service-description-openapi-v3</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-features-logging</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>swagger-ui</artifactId>
+			<version>3.22.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>io.swagger.codegen.v3</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>3.0.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>jaxrs-cxf</language>
+							<inputSpec>src/main/resources/openapi.yaml</inputSpec>
+							<output>${project.build.directory}/generated-sources/swagger</output>
+							<generateApiTests>false</generateApiTests>
+							<generateModelTests>false</generateModelTests>
+							<apiPackage>com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api</apiPackage>
+							<modelPackage>com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model</modelPackage>
+							<modelNameSuffix>ApiModel</modelNameSuffix>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<changeLogDirectory>src/main/resources/</changeLogDirectory>
+					<changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
+					<driver>${jooq-liquibase-jdbc.url.driver}</driver>
+					<url>${jooq-liquibase-jdbc.url}</url>
+					<username>${jooq-liquibase-jdbc.username}</username>
+					<password>${jooq-liquibase-jdbc.password}</password>
+					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>${jooq.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jdbc>
+						<driver>${jooq-liquibase-jdbc.url.driver}</driver>
+                        <url>${jooq-liquibase-jdbc.url}</url>
+						<user>${jooq-liquibase-jdbc.username}</user>
+						<password>${jooq-liquibase-jdbc.password}</password>
+					</jdbc>
+					<generator>
+						<name>org.jooq.codegen.JavaGenerator</name>
+						<database>
+							<name>org.jooq.meta.h2.H2Database</name>
+							<includes>.*</includes>
+							<excludes>DATABASECHANGELOG|DATABASECHANGELOGLOCK</excludes>
+							<inputSchema>PUBLIC</inputSchema>
+						</database>
+						<generate/>
+						<target>
+							<packageName>com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.jooq</packageName>
+							<directory>${project.build.directory}/generated-sources/jooq/</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
