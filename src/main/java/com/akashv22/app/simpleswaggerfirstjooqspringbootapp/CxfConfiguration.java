@@ -22,18 +22,8 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.all.endpoint.ApiEndpoint;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.CoreApiEndpoint;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBus;
@@ -47,16 +37,23 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Configuration
 public class CxfConfiguration {
     @Bean
-    public Server rsServer(Bus bus, List<ApiEndpoint> endpoints, OpenApiFeature openApiFeature) {
+    public Server rsServer(
+            Bus bus
+            , CoreApiEndpoint endpoint
+            , OpenApiFeature openApiFeature
+            , JacksonJsonProvider jsonProvider
+    ) {
         JAXRSServerFactoryBean serverFactory = new JAXRSServerFactoryBean();
 
         serverFactory.setBus(bus);
-        serverFactory.setServiceBeans(List.copyOf(endpoints));
+        serverFactory.setServiceBeans(List.of(endpoint));
+        serverFactory.setProviders(List.of(jsonProvider));
         serverFactory.setFeatures(List.of(openApiFeature));
 
         return serverFactory.create();
@@ -95,17 +92,5 @@ public class CxfConfiguration {
         feature.setScan(true);
 
         return feature;
-    }
-
-    @Path("/openapi.yaml")
-    @Component
-    public static class OpenApiEndpoint implements ApiEndpoint {
-        @GET
-        @Produces("text/yaml")
-        public Response getYaml() throws URISyntaxException, IOException {
-            return Response
-                    .ok(Files.readString(Paths.get(CxfConfiguration.class.getResource("/openapi.yaml").toURI())))
-                    .build();
-        }
     }
 }

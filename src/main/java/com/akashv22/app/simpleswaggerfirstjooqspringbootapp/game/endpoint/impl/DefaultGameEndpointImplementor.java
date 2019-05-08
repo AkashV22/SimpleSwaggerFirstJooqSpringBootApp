@@ -20,25 +20,24 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.all.endpoint.ApiEndpoint;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.all.endpoint.exception.InvalidIdException;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.InvalidIdException;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.exception.GameNotFoundException;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service.GameService;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.GameApiModel;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
 import org.springframework.stereotype.Component;
 
-@Component
-public class GameEndpoint implements ApiEndpoint, GamesApi {
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component("gameEndpointImplementor")
+public class DefaultGameEndpointImplementor implements GameEndpointImplementor {
     private final GameService gameService;
 
-    public GameEndpoint(GameService gameService) {
+    public DefaultGameEndpointImplementor(GameService gameService) {
         this.gameService = gameService;
     }
 

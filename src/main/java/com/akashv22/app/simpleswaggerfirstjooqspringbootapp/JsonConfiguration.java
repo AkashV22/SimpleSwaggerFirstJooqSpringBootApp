@@ -20,13 +20,19 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.all.endpoint.exception;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-public class InvalidIdException extends WebApplicationException {
-    public InvalidIdException(int id) {
-        super("Invalid ID supplied: " + id, Response.Status.BAD_REQUEST);
+@Configuration
+public class JsonConfiguration {
+    @Bean
+    @Primary
+    public JacksonJsonProvider jsonProvider(ObjectMapper objectMapper) {
+        return new JacksonJsonProvider(objectMapper);
     }
 }
