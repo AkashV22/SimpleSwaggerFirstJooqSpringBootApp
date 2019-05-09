@@ -92,17 +92,16 @@ public class JooqGameDao implements GameDao {
 
     @Override
     public GameDataModel update(GameDataModel game) {
-        var record = create.update(GAME)
+        int updated = create.update(GAME)
                 .set(GAME.NAME, game.name)
                 .set(GAME.YEAR, game.year)
                 .set(GAME.DATEUPDATED, now())
                 .where(GAME.DELETED.eq(false))
                 .and(GAME.ID.eq(game.id))
-                .returningResult(GAME.ID, GAME.NAME, GAME.YEAR)
-                .fetchOne()
+                .execute()
                 ;
 
-        return recordToDataModel(record);
+        return updated == 1 ? findById(game.id) : null;
     }
 
     @Override

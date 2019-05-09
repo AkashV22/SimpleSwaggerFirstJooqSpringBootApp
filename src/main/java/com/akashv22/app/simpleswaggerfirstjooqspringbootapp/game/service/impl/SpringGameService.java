@@ -52,7 +52,13 @@ public class SpringGameService implements GameService {
     @Transactional
     @Override
     public GameDataModel saveGame(GameDataModel game) {
-        return gameDao.exists(game.id) ? gameDao.update(game) : gameDao.insert(game);
+        int id = game.id;
+
+        if (id == 0) {
+            return gameDao.insert(game);
+        }
+
+        return gameDao.exists(id) ? gameDao.update(game) : null;
     }
 
     @Transactional
