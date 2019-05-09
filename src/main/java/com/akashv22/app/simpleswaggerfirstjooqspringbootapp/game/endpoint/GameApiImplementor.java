@@ -22,6 +22,6 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GameManagementApi;
 
-public interface GameApiImplementor extends GamesApi {}
+public interface GameApiImplementor extends GameManagementApi {}

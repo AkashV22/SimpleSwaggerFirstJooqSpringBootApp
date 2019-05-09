@@ -23,7 +23,7 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.GameApiImplementor;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GameManagementApi;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.GameApiModel;
 import java.util.List;
 import javax.validation.Valid;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Path("/")
-public class CoreApiEndpoint implements GamesApi {
+public class CoreApiEndpoint implements GameManagementApi {
     private final GameApiImplementor gameApiImplementor;
 
     public CoreApiEndpoint(

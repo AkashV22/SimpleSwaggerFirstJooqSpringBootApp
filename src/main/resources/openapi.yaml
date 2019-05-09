@@ -13,15 +13,15 @@ info:
     url: https://choosealicense.com/licenses/mit/
 
 tags:
-  - name: games
-    description: Everything about games.
+  - name: Game Management
+    description: Manage everything about games.
 
 paths:
   /games:
     get:
       operationId: getGames
       tags:
-        - games
+        - Game Management
       summary: Obtain a list of games.
       description: Returns a list of games.
       responses:
@@ -38,7 +38,7 @@ paths:
     put:
       operationId: addOrUpdateGame
       tags:
-        - games
+        - Game Management
       summary: Add or update a game.
       description: Returns the added or updated game.
       requestBody:
@@ -62,7 +62,7 @@ paths:
     get:
       operationId: getGame
       tags:
-        - games
+        - Game Management
       summary: Find a game by ID.
       description: Returns a single game.
       parameters:
@@ -79,7 +79,7 @@ paths:
     delete:
       operationId: deleteGame
       tags:
-        - games
+        - Game Management
       summary: Delete a game.
       description: Returns the deleted game.
       parameters:
