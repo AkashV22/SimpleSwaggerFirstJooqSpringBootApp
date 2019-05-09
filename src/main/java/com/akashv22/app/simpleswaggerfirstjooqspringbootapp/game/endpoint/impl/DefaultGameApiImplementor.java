@@ -34,7 +34,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component("gameEndpointImplementor")
+@Component("gameApiImplementor")
 public class DefaultGameApiImplementor implements GameApiImplementor {
     private final GameService gameService;
 
