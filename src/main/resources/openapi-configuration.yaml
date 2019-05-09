@@ -1,3 +1,5 @@
+resourcePackages:
+  - io.swagger.sample.resource
 prettyPrint: true
 cacheTTL: -1
 openAPI:
