@@ -226,6 +226,7 @@
                             <includes>.*</includes>
                             <excludes>DATABASECHANGELOG|DATABASECHANGELOGLOCK</excludes>
                             <inputSchema>PUBLIC</inputSchema>
+                            <outputSchemaToDefault>true</outputSchemaToDefault>
                         </database>
                         <generate/>
                         <target>
