@@ -23,6 +23,7 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.CoreApiEndpoint;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper.ApiExceptionMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -38,7 +39,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class CxfConfiguration {
@@ -48,12 +51,13 @@ public class CxfConfiguration {
             , CoreApiEndpoint endpoint
             , OpenApiFeature openApiFeature
             , JacksonJsonProvider jsonProvider
+            , Set<ApiExceptionMapper<?>> exceptionMappers
     ) {
         JAXRSServerFactoryBean serverFactory = new JAXRSServerFactoryBean();
 
         serverFactory.setBus(bus);
         serverFactory.setServiceBeans(List.of(endpoint));
-        serverFactory.setProviders(List.of(jsonProvider));
+        serverFactory.setProviders(getProviderList(jsonProvider, exceptionMappers));
         serverFactory.setFeatures(List.of(openApiFeature));
 
         return serverFactory.create();
@@ -93,5 +97,15 @@ public class CxfConfiguration {
         feature.setScan(true);
 
         return feature;
+    }
+
+    private List<Object> getProviderList(
+            JacksonJsonProvider jsonProvider
+            , Set<ApiExceptionMapper<?>> exceptionMappers
+    ) {
+        List<Object> providers = new ArrayList<>();
+        providers.add(jsonProvider);
+        providers.addAll(exceptionMappers);
+        return List.copyOf(providers);
     }
 }

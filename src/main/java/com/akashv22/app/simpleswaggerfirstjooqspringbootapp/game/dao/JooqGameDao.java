@@ -83,7 +83,7 @@ public class JooqGameDao implements GameDao {
         var record = create.insertInto(GAME)
                 .columns(GAME.NAME, GAME.YEAR, GAME.DATEADDED)
                 .values(game.name, game.year, now())
-                .returning(GAME.ID, GAME.NAME, GAME.YEAR)
+                .returningResult(GAME.ID, GAME.NAME, GAME.YEAR)
                 .fetchOne()
                 ;
 
@@ -98,7 +98,7 @@ public class JooqGameDao implements GameDao {
                 .set(GAME.DATEUPDATED, now())
                 .where(GAME.DELETED.eq(false))
                 .and(GAME.ID.eq(game.id))
-                .returning(GAME.ID, GAME.NAME, GAME.YEAR)
+                .returningResult(GAME.ID, GAME.NAME, GAME.YEAR)
                 .fetchOne()
                 ;
 
@@ -112,7 +112,7 @@ public class JooqGameDao implements GameDao {
                 .set(GAME.DATEDELETED, now())
                 .where(GAME.DELETED.eq(false))
                 .and(GAME.ID.eq(id))
-                .returning(GAME.ID, GAME.NAME, GAME.YEAR)
+                .returningResult(GAME.ID, GAME.NAME, GAME.YEAR)
                 .fetchOne()
                 ;
 

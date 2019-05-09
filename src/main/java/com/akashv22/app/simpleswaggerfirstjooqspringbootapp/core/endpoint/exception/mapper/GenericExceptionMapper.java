@@ -20,12 +20,16 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import javax.ws.rs.BadRequestException;
+import org.springframework.stereotype.Component;
 
-public class InvalidIdException extends BadRequestException {
-    public InvalidIdException(int id) {
-        super("Invalid ID supplied: " + id);
+import javax.ws.rs.core.Response;
+
+@Component
+public class GenericExceptionMapper extends ApiExceptionMapper<Throwable> {
+    @Override
+    protected Response.StatusType getStatus(Throwable exception) {
+        return Response.Status.INTERNAL_SERVER_ERROR;
     }
 }

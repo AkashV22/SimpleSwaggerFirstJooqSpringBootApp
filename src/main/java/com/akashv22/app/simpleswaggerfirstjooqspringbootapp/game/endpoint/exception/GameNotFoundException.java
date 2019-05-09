@@ -22,11 +22,10 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.exception;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.NotFoundException;
 
-public class GameNotFoundException extends WebApplicationException {
+public class GameNotFoundException extends NotFoundException {
     public GameNotFoundException(Integer gameId) {
-        super("Game not found with ID: " + gameId, Response.Status.NOT_FOUND);
+        super("Game not found with ID: " + gameId);
     }
 }

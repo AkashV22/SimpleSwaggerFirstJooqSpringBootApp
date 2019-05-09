@@ -20,12 +20,22 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import javax.ws.rs.BadRequestException;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.ErrorMessageApiModel;
 
-public class InvalidIdException extends BadRequestException {
-    public InvalidIdException(int id) {
-        super("Invalid ID supplied: " + id);
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+
+public abstract class ApiExceptionMapper<E extends Throwable> implements ExceptionMapper<E> {
+    @Override
+    public Response toResponse(E exception) {
+        return Response
+                .status(getStatus(exception))
+                .entity(new ErrorMessageApiModel().message(exception.getMessage()))
+                .build()
+                ;
     }
+
+    protected abstract Response.StatusType getStatus(E exception);
 }
