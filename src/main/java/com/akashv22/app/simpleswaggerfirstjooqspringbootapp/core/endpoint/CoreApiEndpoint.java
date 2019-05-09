@@ -25,27 +25,20 @@ package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl.GameEndpointImplementor;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.GameApiModel;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.openapispec.api.OpenApiSpecApi;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.openapispec.endpoint.OpenApiSpecEndpointImplementor;
-import org.springframework.stereotype.Component;
-
+import java.util.List;
 import javax.validation.Valid;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 @Path("/")
-public class CoreApiEndpoint implements GamesApi, OpenApiSpecApi {
+public class CoreApiEndpoint implements GamesApi {
     private final GameEndpointImplementor gameEndpointImplementor;
-    private final OpenApiSpecEndpointImplementor openApiSpecEndpointImplementor;
 
     public CoreApiEndpoint(
             GameEndpointImplementor gameEndpointImplementor
-            , OpenApiSpecEndpointImplementor openApiSpecEndpointImplementor
     ) {
         this.gameEndpointImplementor = gameEndpointImplementor;
-        this.openApiSpecEndpointImplementor = openApiSpecEndpointImplementor;
     }
 
     @Override
@@ -66,10 +59,5 @@ public class CoreApiEndpoint implements GamesApi, OpenApiSpecApi {
     @Override
     public List<GameApiModel> getGames() {
         return gameEndpointImplementor.getGames();
-    }
-
-    @Override
-    public Response getOpenApiSpecYaml() {
-        return openApiSpecEndpointImplementor.getOpenApiSpecYaml();
     }
 }

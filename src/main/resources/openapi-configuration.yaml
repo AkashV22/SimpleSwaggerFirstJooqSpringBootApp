@@ -1,0 +1,161 @@
+prettyPrint: true
+cacheTTL: -1
+openAPI:
+  openapi: 3.0.1
+
+  info:
+    title: Simple Swagger-First jOOQ Spring Boot App
+    version: "1.0"
+    description: A simple Spring Boot app using Swagger Codegen to generate REST interfaces from an OpenAPI v3 spec, and jOOQ for data persistence.
+    contact:
+      name: AkashV22
+      url: http://akashv22.com
+      email: iakashv22@gmail.com
+    license:
+      name: MIT
+      url: https://choosealicense.com/licenses/mit/
+
+  tags:
+    - name: games
+      description: Everything about games.
+
+  paths:
+    /games:
+      get:
+        operationId: getGames
+        tags:
+          - games
+        summary: Obtain a list of games.
+        description: Returns a list of games.
+        responses:
+          200:
+            description: Successful operation.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Game'
+          500:
+            $ref: '#/components/responses/500InternalServerError'
+      put:
+        operationId: addOrUpdateGame
+        tags:
+          - games
+        summary: Add or update a game.
+        description: Returns the added or updated game.
+        requestBody:
+          description: The game to add or updated.
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        responses:
+          200:
+            $ref: '#/components/responses/SingleGame'
+          400:
+            $ref: '#/components/responses/400BadRequest'
+          404:
+            $ref: '#/components/responses/404NotFound'
+          500:
+            $ref: '#/components/responses/500InternalServerError'
+
+    /games/{gameId}:
+      get:
+        operationId: getGame
+        tags:
+          - games
+        summary: Find a game by ID.
+        description: Returns a single game.
+        parameters:
+          - $ref: '#/components/parameters/GameId'
+        responses:
+          200:
+            $ref: '#/components/responses/SingleGame'
+          400:
+            $ref: '#/components/responses/400BadRequest'
+          404:
+            $ref: '#/components/responses/404NotFound'
+          500:
+            $ref: '#/components/responses/500InternalServerError'
+      delete:
+        operationId: deleteGame
+        tags:
+          - games
+        summary: Delete a game.
+        description: Returns the deleted game.
+        parameters:
+          - $ref: '#/components/parameters/GameId'
+        responses:
+          200:
+            $ref: '#/components/responses/SingleGame'
+          400:
+            $ref: '#/components/responses/400BadRequest'
+          404:
+            $ref: '#/components/responses/404NotFound'
+          500:
+            $ref: '#/components/responses/500InternalServerError'
+
+  components:
+    schemas:
+      Game:
+        description: Information of a game.
+        required:
+          - name
+          - year
+        type: object
+        properties:
+          id:
+            type: integer
+            description: The ID of the game. Setting this to 0 or null, or not setting this at all, will result in a new game being created.
+            example: 1
+          name:
+            type: string
+            description: The name of the game.
+            example: Bayonetta
+          year:
+            type: integer
+            description: the year of the game.
+            example: 2009
+      ErrorMessage:
+        description: A representation of an error message.
+        type: object
+        properties:
+          message:
+            type: string
+            description: The error message.
+            example: An error has occurred.
+    parameters:
+      GameId:
+        name: gameId
+        in: path
+        description: The ID of the game.
+        required: true
+        schema:
+          type: integer
+    responses:
+      SingleGame:
+        description: Successful operation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      400BadRequest:
+        description: Bad request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorMessage'
+      404NotFound:
+        description: Not found.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorMessage'
+      500InternalServerError:
+        description: Internal server error.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorMessage'

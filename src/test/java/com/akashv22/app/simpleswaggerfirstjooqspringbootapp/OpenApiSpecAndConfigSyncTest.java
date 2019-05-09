@@ -20,28 +20,26 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.openapispec.endpoint.impl;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.openapispec.endpoint.OpenApiSpecEndpointImplementor;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.integration.SwaggerConfiguration;
+import io.swagger.v3.oas.models.OpenAPI;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import org.junit.jupiter.api.Test;
 
-//@Component("openApiSpecEndpointImplementor")
-public class DefaultOpenApiSpecEndpointImplementor implements OpenApiSpecEndpointImplementor {
-    @Override
-    public Response getOpenApiSpecYaml() {
-        try {
-            return Response
-                    .ok(Files.readString(Paths.get(getClass().getResource("/openapi.yaml").toURI())))
-                    .build();
-        } catch (IOException | URISyntaxException e) {
-            throw new WebApplicationException(e);
-        }
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class OpenApiSpecAndConfigSyncTest {
+    @Test
+    public void testSpecAndConfigAreInSync() throws IOException {
+        SwaggerConfiguration swaggerConfiguration = readYaml("/openapi-configuration.yaml", SwaggerConfiguration.class);
+        OpenAPI openAPI = readYaml("/openapi.yaml", OpenAPI.class);
+
+        assertEquals(openAPI, swaggerConfiguration.getOpenAPI());
+    }
+
+    private <T> T readYaml(String resource, Class<T> clazz) throws IOException {
+        return Yaml.mapper().readValue(getClass().getResourceAsStream(resource), clazz);
     }
 }

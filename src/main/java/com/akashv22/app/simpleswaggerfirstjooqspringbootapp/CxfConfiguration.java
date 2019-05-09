@@ -87,7 +87,8 @@ public class CxfConfiguration {
         customizer.setDynamicBasePath(true);
         feature.setCustomizer(customizer);
 
-        feature.setScanKnownConfigLocations(true);
+        feature.setScanKnownConfigLocations(false);
+        feature.setConfigLocation("/openapi-configuration.yaml");
         feature.setSupportSwaggerUi(true);
         feature.setScan(true);
 

@@ -39,7 +39,7 @@ public class ApplicationTest {
 
 	@Test
 	public void contextLoads() {
-		System.out.println("\nDebug point on port :" + port + "\n");
+		System.out.println("\nDebug point on port: " + port + "\n");
 	}
 
 }
