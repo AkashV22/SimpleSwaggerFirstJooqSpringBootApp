@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
 
-public interface GameEndpointImplementor extends GamesApi {}
+public interface GameApiImplementor extends GamesApi {}

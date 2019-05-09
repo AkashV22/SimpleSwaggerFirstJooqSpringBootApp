@@ -23,6 +23,7 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.InvalidIdException;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.GameApiImplementor;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.exception.GameNotFoundException;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service.GameService;
@@ -34,10 +35,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("gameEndpointImplementor")
-public class DefaultGameEndpointImplementor implements GameEndpointImplementor {
+public class DefaultGameApiImplementor implements GameApiImplementor {
     private final GameService gameService;
 
-    public DefaultGameEndpointImplementor(GameService gameService) {
+    public DefaultGameApiImplementor(GameService gameService) {
         this.gameService = gameService;
     }
 

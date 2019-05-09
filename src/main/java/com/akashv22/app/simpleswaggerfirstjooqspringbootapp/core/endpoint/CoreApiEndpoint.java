@@ -22,7 +22,7 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl.GameEndpointImplementor;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.GameApiImplementor;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api.GamesApi;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.GameApiModel;
 import java.util.List;
@@ -33,31 +33,31 @@ import org.springframework.stereotype.Component;
 @Component
 @Path("/")
 public class CoreApiEndpoint implements GamesApi {
-    private final GameEndpointImplementor gameEndpointImplementor;
+    private final GameApiImplementor gameApiImplementor;
 
     public CoreApiEndpoint(
-            GameEndpointImplementor gameEndpointImplementor
+            GameApiImplementor gameApiImplementor
     ) {
-        this.gameEndpointImplementor = gameEndpointImplementor;
+        this.gameApiImplementor = gameApiImplementor;
     }
 
     @Override
     public GameApiModel addOrUpdateGame(@Valid GameApiModel body) {
-        return gameEndpointImplementor.addOrUpdateGame(body);
+        return gameApiImplementor.addOrUpdateGame(body);
     }
 
     @Override
     public GameApiModel deleteGame(Integer gameId) {
-        return gameEndpointImplementor.deleteGame(gameId);
+        return gameApiImplementor.deleteGame(gameId);
     }
 
     @Override
     public GameApiModel getGame(Integer gameId) {
-        return gameEndpointImplementor.getGame(gameId);
+        return gameApiImplementor.getGame(gameId);
     }
 
     @Override
     public List<GameApiModel> getGames() {
-        return gameEndpointImplementor.getGames();
+        return gameApiImplementor.getGames();
     }
 }
