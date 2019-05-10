@@ -23,6 +23,8 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -34,12 +36,14 @@ import org.springframework.boot.web.server.LocalServerPort;
 		, "spring.datasource.password="
 })
 public class ApplicationTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationTest.class);
 	@LocalServerPort
 	private int port;
 
 	@Test
 	public void contextLoads() {
-		System.out.println("\nDebug point on port: " + port + "\n");
+		String url = String.format("http://localhost:%s/api/api-docs?url=/api/openapi.json", port);
+		LOGGER.debug("Debug point with URL: {}", url);
 	}
 
 }

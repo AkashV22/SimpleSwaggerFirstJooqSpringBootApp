@@ -43,14 +43,7 @@ public class JooqGameDao implements GameDao {
 
     @Override
     public GameDataModel findById(int id) {
-        var record = create.select(GAME.ID, GAME.NAME, GAME.YEAR)
-                .from(GAME)
-                .where(GAME.DELETED.eq(false))
-                .and(GAME.ID.eq(id))
-                .fetchOne()
-                ;
-
-        return recordToDataModel(record);
+        return findById(id, false);
     }
 
     @Override
@@ -92,26 +85,42 @@ public class JooqGameDao implements GameDao {
 
     @Override
     public GameDataModel update(GameDataModel game) {
+        int id = game.id;
+
         int updated = create.update(GAME)
                 .set(GAME.NAME, game.name)
                 .set(GAME.YEAR, game.year)
                 .set(GAME.DATEUPDATED, now())
                 .where(GAME.DELETED.eq(false))
-                .and(GAME.ID.eq(game.id))
+                .and(GAME.ID.eq(id))
                 .execute()
                 ;
 
-        return updated == 1 ? findById(game.id) : null;
+        return findByIdIfUpdated(updated, id, false);
     }
 
     @Override
     public GameDataModel delete(int id) {
-        var record = create.update(GAME)
+        int updated = create.update(GAME)
                 .set(GAME.DELETED, true)
                 .set(GAME.DATEDELETED, now())
                 .where(GAME.DELETED.eq(false))
                 .and(GAME.ID.eq(id))
-                .returningResult(GAME.ID, GAME.NAME, GAME.YEAR)
+                .execute()
+                ;
+
+        return findByIdIfUpdated(updated, id, true);
+    }
+
+    private GameDataModel findByIdIfUpdated(int updated, int id, boolean deleted) {
+        return updated == 1 ? findById(id, deleted) : null;
+    }
+
+    private GameDataModel findById(int id, boolean deleted) {
+        var record = create.select(GAME.ID, GAME.NAME, GAME.YEAR)
+                .from(GAME)
+                .where(GAME.DELETED.eq(deleted))
+                .and(GAME.ID.eq(id))
                 .fetchOne()
                 ;
 

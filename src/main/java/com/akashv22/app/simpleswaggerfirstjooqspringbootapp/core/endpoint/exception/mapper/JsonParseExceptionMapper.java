@@ -37,7 +37,8 @@ public class JsonParseExceptionMapper extends ApiExceptionMapper<JsonParseExcept
     @Override
     protected String getMessage(JsonParseException exception) {
         JsonLocation location = exception.getLocation();
-        return "Line: " + location.getLineNr() + ", column: "
-                + location.getColumnNr() + " -> " + exception.getOriginalMessage();
+        return "Line: " + location.getLineNr()
+                + ", column: " + location.getColumnNr()
+                + " -> " + exception.getOriginalMessage();
     }
 }

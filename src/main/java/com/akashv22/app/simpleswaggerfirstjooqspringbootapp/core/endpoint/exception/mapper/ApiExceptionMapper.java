@@ -23,13 +23,21 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.ErrorMessageApiModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
 public abstract class ApiExceptionMapper<E extends Throwable> implements ExceptionMapper<E> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionMapper.class);
+
     @Override
     public final Response toResponse(E exception) {
+        if (LOGGER.isErrorEnabled()) {
+            LOGGER.error("{} was thrown and caught.", exception.getClass().getSimpleName(), exception);
+        }
+
         return Response
                 .status(getStatus(exception))
                 .entity(new ErrorMessageApiModel().message(getMessage(exception)))
