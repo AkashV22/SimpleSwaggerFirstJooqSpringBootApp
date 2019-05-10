@@ -33,6 +33,8 @@ import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.openapi.OpenApiCustomizer;
 import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
+import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
+import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +59,8 @@ public class CxfConfiguration {
 
         serverFactory.setBus(bus);
         serverFactory.setServiceBeans(List.of(endpoint));
+        serverFactory.setInInterceptors(List.of(new JAXRSBeanValidationInInterceptor()));
+        serverFactory.setOutInterceptors(List.of(new JAXRSBeanValidationOutInterceptor()));
         serverFactory.setProviders(getProviderList(jsonProvider, exceptionMappers));
         serverFactory.setFeatures(List.of(openApiFeature));
 

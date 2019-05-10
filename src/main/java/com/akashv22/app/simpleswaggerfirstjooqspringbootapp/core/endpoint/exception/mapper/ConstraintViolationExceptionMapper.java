@@ -22,24 +22,22 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.ErrorMessageApiModel;
-
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
+import org.springframework.stereotype.Component;
 
-public abstract class ApiExceptionMapper<E extends Throwable> implements ExceptionMapper<E> {
+@Component
+public class ConstraintViolationExceptionMapper extends ApiExceptionMapper<ConstraintViolationException> {
     @Override
-    public final Response toResponse(E exception) {
-        return Response
-                .status(getStatus(exception))
-                .entity(new ErrorMessageApiModel().message(getMessage(exception)))
-                .build()
-                ;
+    protected Response.StatusType getStatus(ConstraintViolationException exception) {
+        return Response.Status.BAD_REQUEST;
     }
 
-    protected abstract Response.StatusType getStatus(E exception);
-
-    protected String getMessage(E exception) {
-        return exception.getMessage();
+    @Override
+    protected String getMessage(ConstraintViolationException exception) {
+        Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
+        return super.getMessage(exception);
     }
 }

@@ -22,24 +22,22 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.ErrorMessageApiModel;
-
+import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.core.JsonParseException;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
+import org.springframework.stereotype.Component;
 
-public abstract class ApiExceptionMapper<E extends Throwable> implements ExceptionMapper<E> {
+@Component
+public class JsonParseExceptionMapper extends ApiExceptionMapper<JsonParseException> {
     @Override
-    public final Response toResponse(E exception) {
-        return Response
-                .status(getStatus(exception))
-                .entity(new ErrorMessageApiModel().message(getMessage(exception)))
-                .build()
-                ;
+    protected Response.StatusType getStatus(JsonParseException exception) {
+        return Response.Status.BAD_REQUEST;
     }
 
-    protected abstract Response.StatusType getStatus(E exception);
-
-    protected String getMessage(E exception) {
-        return exception.getMessage();
+    @Override
+    protected String getMessage(JsonParseException exception) {
+        JsonLocation location = exception.getLocation();
+        return "Line: " + location.getLineNr() + ", column: "
+                + location.getColumnNr() + " -> " + exception.getOriginalMessage();
     }
 }
