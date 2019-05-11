@@ -81,7 +81,7 @@ public class CxfConfiguration {
     @Primary
     public Bus bus() {
         SpringBus bus = new SpringBus();
-        bus.setId("cxf");
+        bus.setId(Bus.DEFAULT_BUS_ID);
         bus.setFeatures(List.of(new LoggingFeature()));
         BusFactory.setDefaultBus(bus);
         return bus;

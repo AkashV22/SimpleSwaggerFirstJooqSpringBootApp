@@ -31,7 +31,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.stereotype.Repository;
 
-import static com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.jooq.tables.Game.GAME;
+import static com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.jooq.tables.GameTable.GAME;
 
 @Repository("gameDao")
 public class JooqGameDao implements GameDao {
