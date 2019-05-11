@@ -44,11 +44,6 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
-        <dependency> <!-- For now, this dependency will need to be installed locally, and can be found at https://github.com/AkashV22/CustomJooqGeneratorStrategies .-->
-            <groupId>com.akashv22.jooq</groupId>
-            <artifactId>custom-jooq-generator-strategies</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -241,6 +236,11 @@
                         <groupId>com.h2database</groupId>
                         <artifactId>h2</artifactId>
                         <version>${h2.version}</version>
+                    </dependency>
+                    <dependency> <!-- For now, this dependency will need to be installed locally, and can be found at https://github.com/AkashV22/CustomJooqGeneratorStrategies .-->
+                        <groupId>com.akashv22.jooq</groupId>
+                        <artifactId>custom-jooq-generator-strategies</artifactId>
+                        <version>0.1.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
                 <configuration>
