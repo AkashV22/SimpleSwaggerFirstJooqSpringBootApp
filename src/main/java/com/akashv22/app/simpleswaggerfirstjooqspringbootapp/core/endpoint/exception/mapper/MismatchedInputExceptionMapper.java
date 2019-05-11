@@ -22,9 +22,30 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import javax.validation.ConstraintViolationException;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.AppProperties;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConstraintViolationExceptionMapper
-        extends AbstractBadRequestExceptionMapper<ConstraintViolationException> {}
+public class MismatchedInputExceptionMapper extends AbstractBadRequestExceptionMapper<MismatchedInputException> {
+    private final String swaggerApiModelNameSuffix;
+
+    public MismatchedInputExceptionMapper(final AppProperties appProperties) {
+        this.swaggerApiModelNameSuffix = appProperties.getSwaggerApiModelNameSuffix();
+    }
+
+    @Override
+    protected final String getMessage(final MismatchedInputException exception) {
+        return "The supplied JSON cannot be parsed as an object of type \"" + getTargetType(exception) + "\".";
+    }
+
+    private String getTargetType(final MismatchedInputException exception) {
+        final String targetType = exception.getTargetType().getSimpleName();
+
+        if (targetType.endsWith(swaggerApiModelNameSuffix)) {
+            return targetType.substring(0, targetType.length() - swaggerApiModelNameSuffix.length());
+        }
+
+        return targetType;
+    }
+}

@@ -22,9 +22,11 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import javax.validation.ConstraintViolationException;
-import org.springframework.stereotype.Component;
+import javax.ws.rs.core.Response;
 
-@Component
-public class ConstraintViolationExceptionMapper
-        extends AbstractBadRequestExceptionMapper<ConstraintViolationException> {}
+public abstract class AbstractBadRequestExceptionMapper<E extends Throwable> extends ApiExceptionMapper<E> {
+    @Override
+    protected final Response.StatusType getStatus(final E exception) {
+        return Response.Status.BAD_REQUEST;
+    }
+}

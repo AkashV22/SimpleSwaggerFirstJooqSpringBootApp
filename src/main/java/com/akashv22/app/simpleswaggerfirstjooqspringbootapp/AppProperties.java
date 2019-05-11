@@ -20,11 +20,27 @@
  * SOFTWARE.
  */
 
-package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
+package com.akashv22.app.simpleswaggerfirstjooqspringbootapp;
 
-import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.NotEmpty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
+@ConfigurationProperties("com.akashv22.app.simpleswaggerfirstjooqspringbootapp")
+@Validated
 @Component
-public class ConstraintViolationExceptionMapper
-        extends AbstractBadRequestExceptionMapper<ConstraintViolationException> {}
+@Primary
+public class AppProperties {
+    @NotEmpty
+    private String swaggerApiModelNameSuffix;
+
+    public String getSwaggerApiModelNameSuffix() {
+        return swaggerApiModelNameSuffix;
+    }
+
+    public void setSwaggerApiModelNameSuffix(String swaggerApiModelNameSuffix) {
+        this.swaggerApiModelNameSuffix = swaggerApiModelNameSuffix;
+    }
+}

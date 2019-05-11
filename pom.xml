@@ -19,6 +19,8 @@
         <cxf.version>3.3.1</cxf.version>
         <swagger.version>2.0.8</swagger.version>
 
+        <swagger.model-name-suffix>ApiModel</swagger.model-name-suffix>
+
         <jooq-liquibase-jdbc.url.driver>org.h2.Driver</jooq-liquibase-jdbc.url.driver>
         <jooq-liquibase-jdbc.path>${project.build.directory}/jooq-liquibase/db</jooq-liquibase-jdbc.path>
         <jooq-liquibase-jdbc.url>jdbc:h2:${jooq-liquibase-jdbc.path};MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=false</jooq-liquibase-jdbc.url>
@@ -189,7 +191,7 @@
                             <generateModelTests>false</generateModelTests>
                             <apiPackage>com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.api</apiPackage>
                             <modelPackage>com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model</modelPackage>
-                            <modelNameSuffix>ApiModel</modelNameSuffix>
+                            <modelNameSuffix>${swagger.model-name-suffix}</modelNameSuffix>
                         </configuration>
                     </execution>
                 </executions>
@@ -263,6 +265,14 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>12</source>
+                    <target>12</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

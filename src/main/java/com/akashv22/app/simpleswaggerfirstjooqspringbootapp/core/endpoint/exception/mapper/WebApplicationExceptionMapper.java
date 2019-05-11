@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 @Component
 public class WebApplicationExceptionMapper extends ApiExceptionMapper<WebApplicationException> {
     @Override
-    protected Response.StatusType getStatus(WebApplicationException exception) {
+    protected final Response.StatusType getStatus(final WebApplicationException exception) {
         return exception.getResponse().getStatusInfo();
     }
 }

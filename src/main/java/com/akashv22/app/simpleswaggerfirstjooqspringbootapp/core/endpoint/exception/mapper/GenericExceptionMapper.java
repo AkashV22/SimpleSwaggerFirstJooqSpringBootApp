@@ -24,12 +24,5 @@ package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.excep
 
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.core.Response;
-
 @Component
-public class GenericExceptionMapper extends ApiExceptionMapper<Throwable> {
-    @Override
-    protected Response.StatusType getStatus(Throwable exception) {
-        return Response.Status.INTERNAL_SERVER_ERROR;
-    }
-}
+public class GenericExceptionMapper extends AbstractInternalServerErrorExceptionMapper<Throwable> {}

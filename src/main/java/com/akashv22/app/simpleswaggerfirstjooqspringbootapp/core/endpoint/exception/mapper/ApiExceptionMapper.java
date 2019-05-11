@@ -23,6 +23,7 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.ErrorMessageApiModel;
+import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,7 @@ public abstract class ApiExceptionMapper<E extends Throwable> implements Excepti
 
         return Response
                 .status(getStatus(exception))
+                .type(MediaType.APPLICATION_JSON_TYPE)
                 .entity(new ErrorMessageApiModel().message(getMessage(exception)))
                 .build()
                 ;
@@ -47,7 +49,7 @@ public abstract class ApiExceptionMapper<E extends Throwable> implements Excepti
 
     protected abstract Response.StatusType getStatus(E exception);
 
-    protected String getMessage(E exception) {
+    protected String getMessage(final E exception) {
         return exception.getMessage();
     }
 }

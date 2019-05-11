@@ -22,24 +22,13 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.mapper;
 
-import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParseException;
-import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JsonParseExceptionMapper extends ApiExceptionMapper<JsonParseException> {
+public class JsonParseExceptionMapper extends AbstractBadRequestExceptionMapper<JsonParseException> {
     @Override
-    protected Response.StatusType getStatus(JsonParseException exception) {
-        return Response.Status.BAD_REQUEST;
-    }
-
-    @Override
-    protected String getMessage(JsonParseException exception) {
-        JsonLocation location = exception.getLocation();
-        return "Line: " + location.getLineNr()
-                + ", column: " + location.getColumnNr()
-                + " -> " + exception.getOriginalMessage()
-                ;
+    protected final String getMessage(final JsonParseException exception) {
+        return "The supplied JSON is malformed. Please send valid JSON.";
     }
 }
