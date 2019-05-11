@@ -23,7 +23,7 @@
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service.impl;
 
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.dao.GameDao;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.Game;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service.GameService;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -39,19 +39,19 @@ public class SpringGameService implements GameService {
 
     @Transactional
     @Override
-    public GameDataModel getGame(int id) {
+    public Game getGame(int id) {
         return gameDao.findById(id);
     }
 
     @Transactional
     @Override
-    public List<GameDataModel> getGames() {
+    public List<Game> getGames() {
         return gameDao.findAll();
     }
 
     @Transactional
     @Override
-    public GameDataModel saveGame(GameDataModel game) {
+    public Game saveGame(Game game) {
         int id = game.id;
 
         if (id == 0) {
@@ -63,7 +63,7 @@ public class SpringGameService implements GameService {
 
     @Transactional
     @Override
-    public GameDataModel deleteGame(int id) {
+    public Game deleteGame(int id) {
         return gameDao.delete(id);
     }
 }

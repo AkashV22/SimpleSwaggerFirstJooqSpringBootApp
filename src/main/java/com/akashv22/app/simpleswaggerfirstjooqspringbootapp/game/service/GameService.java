@@ -22,15 +22,15 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.Game;
 import java.util.List;
 
 public interface GameService {
-    GameDataModel getGame(int id);
+    Game getGame(int id);
 
-    List<GameDataModel> getGames();
+    List<Game> getGames();
 
-    GameDataModel saveGame(GameDataModel game);
+    Game saveGame(Game game);
 
-    GameDataModel deleteGame(int id);
+    Game deleteGame(int id);
 }

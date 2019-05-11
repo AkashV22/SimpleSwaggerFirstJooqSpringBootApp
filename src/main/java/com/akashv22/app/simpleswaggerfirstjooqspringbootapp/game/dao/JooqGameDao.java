@@ -22,7 +22,7 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.dao;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.Game;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,12 +42,12 @@ public class JooqGameDao implements GameDao {
     }
 
     @Override
-    public GameDataModel findById(int id) {
+    public Game findById(int id) {
         return findById(id, false);
     }
 
     @Override
-    public List<GameDataModel> findAll() {
+    public List<Game> findAll() {
         var records = create.select(GAME.ID, GAME.NAME, GAME.YEAR)
                 .from(GAME)
                 .where(GAME.DELETED.eq(false))
@@ -72,7 +72,7 @@ public class JooqGameDao implements GameDao {
     }
 
     @Override
-    public GameDataModel insert(GameDataModel game) {
+    public Game insert(Game game) {
         var record = create.insertInto(GAME)
                 .columns(GAME.NAME, GAME.YEAR, GAME.DATEADDED)
                 .values(game.name, game.year, now())
@@ -84,7 +84,7 @@ public class JooqGameDao implements GameDao {
     }
 
     @Override
-    public GameDataModel update(GameDataModel game) {
+    public Game update(Game game) {
         int id = game.id;
 
         int updated = create.update(GAME)
@@ -100,7 +100,7 @@ public class JooqGameDao implements GameDao {
     }
 
     @Override
-    public GameDataModel delete(int id) {
+    public Game delete(int id) {
         int updated = create.update(GAME)
                 .set(GAME.DELETED, true)
                 .set(GAME.DATEDELETED, now())
@@ -112,11 +112,11 @@ public class JooqGameDao implements GameDao {
         return findByIdIfUpdated(updated, id, true);
     }
 
-    private GameDataModel findByIdIfUpdated(int updated, int id, boolean deleted) {
+    private Game findByIdIfUpdated(int updated, int id, boolean deleted) {
         return updated == 1 ? findById(id, deleted) : null;
     }
 
-    private GameDataModel findById(int id, boolean deleted) {
+    private Game findById(int id, boolean deleted) {
         var record = create.select(GAME.ID, GAME.NAME, GAME.YEAR)
                 .from(GAME)
                 .where(GAME.DELETED.eq(deleted))
@@ -127,11 +127,11 @@ public class JooqGameDao implements GameDao {
         return recordToDataModel(record);
     }
 
-    private GameDataModel recordToDataModel(Record record) {
+    private Game recordToDataModel(Record record) {
         if(record == null) {
             return null;
         }
-        return new GameDataModel(record.getValue(GAME.ID), record.getValue(GAME.NAME), record.getValue(GAME.YEAR));
+        return new Game(record.getValue(GAME.ID), record.getValue(GAME.NAME), record.getValue(GAME.YEAR));
     }
 
     private Timestamp now() {

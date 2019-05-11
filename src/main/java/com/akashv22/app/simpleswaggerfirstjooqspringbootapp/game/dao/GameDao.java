@@ -22,19 +22,19 @@
 
 package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.dao;
 
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.Game;
 import java.util.List;
 
 public interface GameDao {
-    GameDataModel findById(int id);
+    Game findById(int id);
 
-    List<GameDataModel> findAll();
+    List<Game> findAll();
 
     boolean exists(int id);
 
-    GameDataModel insert(GameDataModel game);
+    Game insert(Game game);
 
-    GameDataModel update(GameDataModel game);
+    Game update(Game game);
 
-    GameDataModel delete(int id);
+    Game delete(int id);
 }

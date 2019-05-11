@@ -25,7 +25,7 @@ package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.impl;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.core.endpoint.exception.InvalidIdException;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.GameApiImplementor;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.endpoint.exception.GameNotFoundException;
-import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.GameDataModel;
+import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model.Game;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.service.GameService;
 import com.akashv22.app.simpleswaggerfirstjooqspringbootapp.generated.swagger.model.GameApiModel;
 import org.springframework.stereotype.Component;
@@ -49,7 +49,7 @@ public class DefaultGameApiImplementor implements GameApiImplementor {
             throw new InvalidIdException(gameId);
         }
 
-        return dataModelToApiModel(validate(gameId, gameService.saveGame(apiModelToDataModel(body))));
+        return gameToApiModel(validate(gameId, gameService.saveGame(apiModelToGame(body))));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DefaultGameApiImplementor implements GameApiImplementor {
             throw new InvalidIdException(gameId);
         }
 
-        return dataModelToApiModel(validate(gameId, gameService.deleteGame(gameId)));
+        return gameToApiModel(validate(gameId, gameService.deleteGame(gameId)));
     }
 
     @Override
@@ -67,35 +67,35 @@ public class DefaultGameApiImplementor implements GameApiImplementor {
             throw new InvalidIdException(gameId);
         }
 
-        return dataModelToApiModel(validate(gameId, gameService.getGame(gameId)));
+        return gameToApiModel(validate(gameId, gameService.getGame(gameId)));
     }
 
     @Override
     public List<GameApiModel> getGames() {
         return gameService.getGames()
                 .stream()
-                .map(this::dataModelToApiModel)
+                .map(this::gameToApiModel)
                 .collect(Collectors.toList())
                 ;
     }
 
-    private GameDataModel apiModelToDataModel(GameApiModel apiModel) {
+    private Game apiModelToGame(GameApiModel apiModel) {
         Integer id = apiModel.getId();
-        return new GameDataModel(id == null ? 0 : id, apiModel.getName(), apiModel.getYear());
+        return new Game(id == null ? 0 : id, apiModel.getName(), apiModel.getYear());
     }
 
-    private GameDataModel validate(Integer gameId, GameDataModel game) {
+    private Game validate(Integer gameId, Game game) {
         if (gameId != null && game == null) {
             throw new GameNotFoundException(gameId);
         }
         return game;
     }
 
-    private GameApiModel dataModelToApiModel(GameDataModel dataModel) {
+    private GameApiModel gameToApiModel(Game game) {
         return new GameApiModel()
-                .id(dataModel.id)
-                .name(dataModel.name)
-                .year(dataModel.year)
+                .id(game.id)
+                .name(game.name)
+                .year(game.year)
                 ;
     }
 }

@@ -24,12 +24,12 @@ package com.akashv22.app.simpleswaggerfirstjooqspringbootapp.game.model;
 
 import java.util.Objects;
 
-public class GameDataModel {
+public class Game {
     public final int id;
     public final String name;
     public final int year;
 
-    public GameDataModel(int id, String name, int year) {
+    public Game(int id, String name, int year) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -43,7 +43,7 @@ public class GameDataModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        GameDataModel that = (GameDataModel) o;
+        Game that = (Game) o;
         return id == that.id &&
                 year == that.year &&
                 Objects.equals(name, that.name);
