@@ -21,7 +21,7 @@
 
         <swagger.model-name-suffix>ApiModel</swagger.model-name-suffix>
 
-        <jooq-liquibase-jdbc.url.driver>org.h2.Driver</jooq-liquibase-jdbc.url.driver>
+        <jooq-liquibase-jdbc.driver>org.h2.Driver</jooq-liquibase-jdbc.driver>
         <jooq-liquibase-jdbc.path>${project.build.directory}/jooq-liquibase/db</jooq-liquibase-jdbc.path>
         <jooq-liquibase-jdbc.url>jdbc:h2:${jooq-liquibase-jdbc.path};MODE=MYSQL;DATABASE_TO_UPPER=false;DB_CLOSE_ON_EXIT=false</jooq-liquibase-jdbc.url>
         <jooq-liquibase-jdbc.username>sa</jooq-liquibase-jdbc.username>
@@ -48,11 +48,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Apache CXF and Jakarta -->
         <dependency>
@@ -64,6 +59,7 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-service-description</artifactId>
             <version>${cxf.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -146,6 +142,11 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -201,15 +202,6 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
-                <configuration>
-                    <changeLogDirectory>src/main/resources/</changeLogDirectory>
-                    <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
-                    <driver>${jooq-liquibase-jdbc.url.driver}</driver>
-                    <url>${jooq-liquibase-jdbc.url}</url>
-                    <username>${jooq-liquibase-jdbc.username}</username>
-                    <password>${jooq-liquibase-jdbc.password}</password>
-                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                </configuration>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -218,6 +210,22 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <changeLogDirectory>src/main/resources/</changeLogDirectory>
+                    <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <driver>${jooq-liquibase-jdbc.driver}</driver>
+                    <url>${jooq-liquibase-jdbc.url}</url>
+                    <username>${jooq-liquibase-jdbc.username}</username>
+                    <password>${jooq-liquibase-jdbc.password}</password>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -245,7 +253,7 @@
                 </dependencies>
                 <configuration>
                     <jdbc>
-                        <driver>${jooq-liquibase-jdbc.url.driver}</driver>
+                        <driver>${jooq-liquibase-jdbc.driver}</driver>
                         <url>${jooq-liquibase-jdbc.url}</url>
                         <user>${jooq-liquibase-jdbc.username}</user>
                         <password>${jooq-liquibase-jdbc.password}</password>
@@ -253,7 +261,7 @@
                     <generator>
                         <name>org.jooq.codegen.JavaGenerator</name>
                         <strategy>
-                            <name>com.akashv22.jooq.customjooqgeneratorstrategies.TableSuffixGeneratorStrategy</name>
+                            <name>com.akashv22.jooq.customjooqgeneratorstrategies.TableClassNameSuffixGeneratorStrategy</name>
                         </strategy>
                         <database>
                             <name>org.jooq.meta.h2.H2Database</name>
