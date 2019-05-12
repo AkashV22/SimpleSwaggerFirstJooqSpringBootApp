@@ -32,6 +32,18 @@
         <developerConnection>scm:git:https://github.com/AkashV22/SimpleSwaggerFirstJooqSpringBootApp.git</developerConnection>
     </scm>
 
+    <developers>
+        <developer>
+            <id>AkashV22</id>
+            <email>iakashv22@gmail.com</email>
+            <url>http://theakashv22.com</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>12</java.version>
         <cxf.version>3.3.1</cxf.version>
