@@ -9,8 +9,8 @@ info:
     url: http://akashv22.com
     email: iakashv22@gmail.com
   license:
-    name: MIT
-    url: https://choosealicense.com/licenses/mit/
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
 
 tags:
   - name: Game Management

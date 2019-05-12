@@ -2,17 +2,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.akashv22.app</groupId>
     <artifactId>simple-swagger-first-jooq-spring-boot-app</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
     <name>Simple Swagger-First jOOQ Spring Boot App</name>
     <description>A simple Spring Boot app using Swagger Codegen to generate REST interfaces from an OpenAPI v3 spec, and jOOQ for data persistence.</description>
+    <url>https://github.com/AkashV22/SimpleSwaggerFirstJooqSpringBootApp</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/AkashV22/SimpleSwaggerFirstJooqSpringBootApp</url>
+        <connection>scm:git:https://github.com/AkashV22/SimpleSwaggerFirstJooqSpringBootApp.git</connection>
+        <developerConnection>scm:git:https://github.com/AkashV22/SimpleSwaggerFirstJooqSpringBootApp.git</developerConnection>
+    </scm>
 
     <properties>
         <java.version>12</java.version>
